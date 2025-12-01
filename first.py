@@ -18,7 +18,7 @@ import warnings
 warnings.filterwarnings("ignore")
 
 # ==========================================
-# 1. КОНФИГУРАЦИЯ (1-в-1 как в Baseline)
+# 1. КОНФИГУРАЦИЯ 
 # ==========================================
 class constants:
     TRAIN_FILENAME = "train.csv"
@@ -110,7 +110,7 @@ def seed_everything(seed=42):
     os.environ['PYTHONHASHSEED'] = str(seed)
 
 # ==========================================
-# 2. FEATURE ENGINEERING (BASELINE LOGIC)
+# 2. FEATURE ENGINEERING 
 # ==========================================
 
 def add_aggregate_features(df, train_df):
@@ -280,8 +280,7 @@ def main():
     X_train_part = X_full_train.iloc[:split_idx].copy()
     X_val_part = X_full_train.iloc[split_idx:].copy()
     
-    # Генерируем признаки для Валидации
-    # Статистики считаются ТОЛЬКО по X_train_part
+
     print("Generating features for Validation...")
     
     # 1. Aggregates
@@ -408,7 +407,7 @@ def main():
     sub[constants.COL_PREDICTION] = np.clip(p_cb, 0, 10)
     sub.to_csv(config.SUBMISSION_DIR / "submission_catboost_refit.csv", index=False)
     
-    # Ensemble - и его тоже, но оказался похуже
+    # Ensemble - и его тоже, но чуть-чуть оказался похуже
     w_lgb = 1 / (rmse_lgb**2)
     w_cb = 1 / (rmse_cb**2)
     total = w_lgb + w_cb
